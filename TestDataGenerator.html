@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8 />
+	<title>Test Data of ToDo List</title>
+	<!-- Combo-handled YUI CSS files: -->
+	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/combo?2.8.0r4/build/reset-fonts-grids/reset-fonts-grids.css&2.8.0r4/build/base/base-min.css">
+	<!-- Combo-handled YUI JS files: -->
+	<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.8.0r4/build/yahoo-dom-event/yahoo-dom-event.js&2.8.0r4/build/json/json-min.js"></script>
+
+</head>
+<body id="doc">
+<h1>Test Data of ToDo List</h1>
+<p>Copy the following data and save is as .js file.</p>
+<textarea id="test-data" cols="90" rows="20"></textarea>
+<p><a id="select-data" href="#">Select Test Data</a></p>
+
+<script type="text/javascript">
+//<![CDATA[
+YAHOO.namespace("todo");
+YAHOO.todo.TestData = function(){
+	var nNumOfData  = 500,
+		nTaskId     = 0,
+		sTaskString = "ToDo List Item #",
+		oTestData   = {
+			"todo": [],
+			"completed": []	
+		};
+	
+	var createTasks = function(sListType){
+		for (var i=0; i<nNumOfData; i++){
+			var oNow      = new Date(),
+				oTaskItem = {
+					"id": nTaskId,
+					"task": sTaskString + nTaskId,
+					"created": oNow,
+					"updated": oNow
+				};
+			oTestData[sListType].push(oTaskItem);
+			nTaskId++;
+		}
+		
+		if (sListType === "completed") {
+			var nTime = oNow.getTime();
+			for (var i=0, l=oTestData[sListType].length; i<l; i++){
+				nTime = nTime - (60*60*1000*2);
+				var oCompletedTime = new Date();
+				oCompletedTime.setTime(nTime);
+
+				oTestData[sListType][i]["created"]   = oCompletedTime;
+				oTestData[sListType][i]["completed"] = oCompletedTime;
+				oTestData[sListType][i]["updated"]   = oCompletedTime;
+			}
+		}
+	};
+	
+	createTasks("todo");
+	createTasks("completed");
+	
+	return {
+		generate: function(){
+			document.getElementById("test-data").value = YAHOO.lang.JSON.stringify(oTestData);
+		}
+	};
+}();
+
+YAHOO.util.Event.onDOMReady(function(){
+	YAHOO.util.Event.addListener("select-data", "click", function(){
+		var oTextArea = document.getElementById("test-data");
+		oTextArea.focus();
+		oTextArea.select();
+	});
+	
+	YAHOO.todo.TestData.generate();
+});
+
+
+//]]>
+</script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8 />
+	<title>ToDo List</title>
+	<!-- Combo-handled YUI CSS files: -->
+	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/combo?2.8.0r4/build/reset-fonts-grids/reset-fonts-grids.css&2.8.0r4/build/assets/skins/sam/skin.css">
+	<link rel="stylesheet" type="text/css" href="base16.css" />
+	<link rel="stylesheet" type="text/css" href="todo.css" />
+	<!-- Combo-handled YUI JS files: -->
+	<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.8.0r4/build/yahoo-dom-event/yahoo-dom-event.js&2.8.0r4/build/animation/animation-min.js&2.8.0r4/build/calendar/calendar-min.js&2.8.0r4/build/dragdrop/dragdrop-min.js&2.8.0r4/build/container/container-min.js&2.8.0r4/build/cookie/cookie-min.js&2.8.0r4/build/datemath/datemath-min.js&2.8.0r4/build/element/element-min.js&2.8.0r4/build/json/json-min.js&2.8.0r4/build/logger/logger-min.js&2.8.0r4/build/storage/storage-min.js&2.8.0r4/build/swf/swf-min.js&2.8.0r4/build/tabview/tabview-min.js"></script>
+
+<!--
+http://developer.yahoo.com/yui/articles/hosting/?animation&calendar&container&cookie&datemath&dragdrop&element&json&logger&reset-fonts-grids&storage&swf&tabview&yahoo-dom-event&MIN
+-->
+</head>
+<body class="yui-skin-sam">
+<div id="doc" class="yui-t7">
+	<div id="hd">
+		<h1>ToDo List</h1>
+	</div>
+	<div id="bd" class="yui-navset">
+		<div id="tab">
+			<ul class="yui-nav">
+				<li class="selected"><a href="#todo-tab"><em>ToDo</em></a></li>
+				<li><a href="#report-tab"><em>Report</em></a></li>
+				<li><a href="#setting-tab"><em>Setting</em></a></li>
+			</ul>
+		</div>
+		<div id="status"></div>
+		<div id="tab-contents" class="yui-content">
+			<div id="tab-todo-list">
+				<div id="input-form">
+					<form id="add-todo" name="add-todo">
+						<input type="text" id="new-todo" name="new-todo" size="40" value="" />&nbsp;
+						<button type="submit" id="add-new-todo">Add ToDo</button>
+					</form>
+				</div>
+				<div class="yui-g accordion">
+					<div id="project-filter-container"></div>
+					<h2 id="todo" class="ac-title">ToDo</h2>
+					<ul id="todo-list" class="ac-content">
+					</ul>
+					<h2 id="completed" class="ac-title">Completed Today</h2>
+					<ul id="completed-list" class="ac-content">
+					</ul>
+				</div>
+			</div>
+			<div id="tab-report">
+				<div id="report-filter">
+					<div id="calendar"></div>
+					<form id="report-filter-type">
+						<label>
+							<input type="radio" name="report-type" id="report-type-daily" value="daily" />
+							Daily Report
+						</label>
+						<br/>
+						<label>
+							<input type="radio" name="report-type" id="report-type-weekly" value="weekly" checked />
+							Weekly Report
+						</label>
+					</form>
+					<div id="report-period"></div>
+				</div>
+				<div id="report-contents">
+					<h2>Report</h2>
+					<div id="report-lists"></div>
+				</div>
+			</div>
+			<div id="tab-settings">
+				<h2>Data Export</h2>
+				<p>
+					<span id="export-data" class="action-link">Export ToDo Data in JSON format</span>
+				</p>
+				<h2>Data Import</h2>
+				<p>Please paste your ToDo data in JSON format.</p>
+				<div id="import-form">
+					<form id="import-todo" name="import-todo">
+						<textarea id="todo-data" name="todo-data" cols="45" rows="5"></textarea><br/>
+						<label>
+							<input type="radio" id="import-option-replace" name="import-option" value="replace" />
+							Remove existing tasks and the above import task data.
+						</label>
+						<br/>
+						<label>
+							<input type="radio" id="import-option-merge" name="import-option" value="merge" />
+							Merge the above task data to existing tasks based on updated date.
+						</label>
+						<br/>
+						<button type="submit" id="import-todo-data">Import ToDo Data</button>
+					</form>
+				</div>
+				<h2>Clear Data</h2>
+				<div id="operation">
+					<p>This deletes all completed items. You can not see the report after this operation.</p>
+					<span id="clear-completed" class="action-link">Clear ALL Completed Items</span>
+					<p>This deletes all the data which includes ToDo & Completed Items. Please make sure
+					that you have backup data for safe. You can not undo this operation.</p>
+					<span id="clear-all-data" class="action-link">Clear ALL DATA</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="ft">
+		<p>ToDo List made with <a href="http://developer.yahoo.com/yui/2/">YUI2</a></p>
+	</div>
+</div>
+
+<!-- markup for edit form (overlay) -->
+<div id="edit-form">
+	<div class="bd">
+		<form id="edit-todo" name="edit-todo">
+			<input type="text" id="todo-item" name="todo-item" size="30" value="" />
+			<input type="hidden" id="list-type" name="list-type" value="" />
+			<input type="hidden" id="list-index" name="list-index" value="" />
+			<button type="submit" id="update-todo">Update</button>
+			<button type="button" id="cancel-update">Cancel</button>
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript" src="todo.js"></script>
+
+</body>
+</html>
